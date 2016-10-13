@@ -11,10 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.cameramanager.restdemo.R;
+import com.cameramanager.restdemo.RestDemoApplication;
+import com.cameramanager.restdemo.util.ActivityUtils;
+
+import javax.inject.Inject;
 
 public class ZonesActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+
+    @Inject ZonesPresenter mZonesPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,14 @@ public class ZonesActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
+
+        ZonesFragment tasksFragment = (ZonesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (tasksFragment == null) {
+            // Create the fragment
+            tasksFragment = ZonesFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), tasksFragment, R.id.contentFrame);
+        }
+
     }
 
 
