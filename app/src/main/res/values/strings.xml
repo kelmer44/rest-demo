@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RestDemo</string>
+    <string name="zone_list_title">Zones</string>
+    <string name="camera_list_title">Camera list</string>
 </resources>
