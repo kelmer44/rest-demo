@@ -27,7 +27,9 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                tools:text="Zones"/>
+                tools:text="Zones"
+                android:text="@string/zone_list_header"
+                />
 
             <ListView
                 android:id="@+id/zone_list"

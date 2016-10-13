@@ -49,7 +49,6 @@ public class ZonesActivity extends AppCompatActivity {
             tasksFragment = ZonesFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), tasksFragment, R.id.contentFrame);
         }
-
     }
 
 

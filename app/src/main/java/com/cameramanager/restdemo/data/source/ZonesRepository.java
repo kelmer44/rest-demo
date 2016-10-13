@@ -1,5 +1,6 @@
 package com.cameramanager.restdemo.data.source;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 
@@ -12,8 +13,8 @@ import javax.inject.Singleton;
  * <p />
  * By marking the constructor with {@code @Inject} and the class with {@code @Singleton}, Dagger
  * injects the dependencies required to create an instance of the TasksRespository (if it fails, it
- * emits a compiler error). It uses {@link TasksRepositoryModule} to do so, and the constructed
- * instance is available in {@link TasksRepositoryComponent}.
+ * emits a compiler error). It uses {@link ZonesRepositoryModule} to do so, and the constructed
+ * instance is available in {@link ZonesRepositoryComponent}.
  * <p />
  * Dagger generated code doesn't require public access to the constructor or class, and
  * therefore, to ensure the developer doesn't instantiate the class manually and bypasses Dagger,
@@ -22,4 +23,9 @@ import javax.inject.Singleton;
 
 @Singleton
 public class ZonesRepository {
+
+    @Inject
+    ZonesRepository(@Remote ZonesDataSource zonesRemoteDataSource, @Local ZonesDataSource zonesLocalDataSource){
+
+    }
 }
