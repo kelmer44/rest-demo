@@ -1,6 +1,7 @@
 package com.cameramanager.restdemo.zones;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,11 +13,15 @@ import com.cameramanager.restdemo.R;
 
 import java.util.ArrayList;
 
+import static com.cameramanager.restdemo.util.Util.checkNotNull;
+
 /**
  * Created by Gabriel Sanmartín on 10/13/2016.
  */
 
-public class ZonesFragment extends Fragment {
+public class ZonesFragment extends Fragment implements ZonesContract.View {
+
+    private ZonesContract.Presenter mPresenter;
 
     public ZonesFragment() {
 
@@ -42,5 +47,10 @@ public class ZonesFragment extends Fragment {
         ListView listView = (ListView) root.findViewById(R.id.zone_list);
 
         return root;
+    }
+
+    @Override
+    public void setPresenter(@NonNull final ZonesContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
 }

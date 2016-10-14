@@ -1,7 +1,8 @@
 package com.cameramanager.restdemo.data.source;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import android.support.annotation.NonNull;
+
+import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
 
 /**
@@ -10,22 +11,32 @@ import javax.inject.Singleton;
  * For simplicity, this implements a dumb synchronisation between locally persisted data and data
  * obtained from the server, by using the remote data source only if the local database doesn't
  * exist or is empty.
- * <p />
- * By marking the constructor with {@code @Inject} and the class with {@code @Singleton}, Dagger
- * injects the dependencies required to create an instance of the TasksRespository (if it fails, it
- * emits a compiler error). It uses {@link ZonesRepositoryModule} to do so, and the constructed
- * instance is available in {@link ZonesRepositoryComponent}.
- * <p />
- * Dagger generated code doesn't require public access to the constructor or class, and
- * therefore, to ensure the developer doesn't instantiate the class manually and bypasses Dagger,
- * it's good practice minimise the visibility of the class/constructor as much as possible.
  */
-
-@Singleton
 public class ZonesRepository {
 
-    @Inject
-    ZonesRepository(@Remote ZonesDataSource zonesRemoteDataSource, @Local ZonesDataSource zonesLocalDataSource){
+    private static ZonesRepository INSTANCE = null;
 
+    private final ZonesDataSource mZonesRemoteDataSource;
+    private final ZonesDataSource mZonesLocalDataSource;
+
+    // Prevent direct instantiation.
+    private ZonesRepository(@NonNull ZonesDataSource zonesRemoteDataSource, @NonNull ZonesDataSource zonesLocalDataSource){
+        mZonesRemoteDataSource = checkNotNull(zonesRemoteDataSource);
+        mZonesLocalDataSource = checkNotNull(zonesLocalDataSource);
+    }
+
+    /**
+     * Returns the single instance of this class, creating it if necessary.
+     *
+     * @param tasksRemoteDataSource the backend data source
+     * @param tasksLocalDataSource  the device storage data source
+     * @return the {@link ZonesRepository} instance
+     */
+    public static ZonesRepository getInstance(ZonesDataSource tasksRemoteDataSource,
+                                              ZonesDataSource tasksLocalDataSource) {
+        if (INSTANCE == null) {
+            INSTANCE = new ZonesRepository(tasksRemoteDataSource, tasksLocalDataSource);
+        }
+        return INSTANCE;
     }
 }

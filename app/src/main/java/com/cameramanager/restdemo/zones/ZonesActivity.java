@@ -1,26 +1,24 @@
 package com.cameramanager.restdemo.zones;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.cameramanager.restdemo.Injection;
 import com.cameramanager.restdemo.R;
-import com.cameramanager.restdemo.RestDemoApplication;
 import com.cameramanager.restdemo.util.ActivityUtils;
 
-import javax.inject.Inject;
 
 public class ZonesActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
-    @Inject ZonesPresenter mZonesPresenter;
+    ZonesPresenter mZonesPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +41,15 @@ public class ZonesActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
-        ZonesFragment tasksFragment = (ZonesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (tasksFragment == null) {
+        ZonesFragment zonesFragment = (ZonesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (zonesFragment == null) {
             // Create the fragment
-            tasksFragment = ZonesFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), tasksFragment, R.id.contentFrame);
+            zonesFragment = ZonesFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), zonesFragment, R.id.contentFrame);
         }
+
+        // Create the presenter
+        mZonesPresenter = new ZonesPresenter(Injection.provideZonesRepository(getApplicationContext()), zonesFragment);
     }
 
 
