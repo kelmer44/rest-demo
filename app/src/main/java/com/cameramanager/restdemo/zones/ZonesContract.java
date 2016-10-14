@@ -18,7 +18,7 @@ public interface ZonesContract {
 
         boolean isActive();
 
-        void showLoadingTasksError();
+        void showLoadingZonesError();
 
         void showZones(List<Zone> zones);
 
@@ -26,6 +26,7 @@ public interface ZonesContract {
     }
 
     interface Presenter extends BasePresenter {
+
         void addNewZone();
 
         void loadZones(boolean forceUpdate);

@@ -22,6 +22,8 @@ import android.support.annotation.NonNull;
 import com.cameramanager.restdemo.data.source.ZonesRepository;
 import com.cameramanager.restdemo.data.source.local.ZonesLocalDataSource;
 import com.cameramanager.restdemo.data.source.remote.ZonesRemoteDataSource;
+import com.cameramanager.restdemo.util.schedulers.BaseSchedulerProvider;
+import com.cameramanager.restdemo.util.schedulers.SchedulerProvider;
 
 import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
@@ -38,4 +40,7 @@ public class Injection {
     }
 
 
+    public static BaseSchedulerProvider provideSchedulerProvider() {
+        return SchedulerProvider.getInstance();
+    }
 }

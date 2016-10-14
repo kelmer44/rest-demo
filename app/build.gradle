@@ -29,6 +29,10 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
 
+    compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
+    compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
+
+
     // Dagger dependencies
 //    apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 //    provided 'org.glassfish:javax.annotation:10.0-b28'

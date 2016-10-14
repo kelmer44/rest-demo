@@ -5,5 +5,8 @@ package com.cameramanager.restdemo;
  */
 
 public interface BasePresenter {
-    void start();
+
+    void subscribe();
+
+    void unsubscribe();
 }

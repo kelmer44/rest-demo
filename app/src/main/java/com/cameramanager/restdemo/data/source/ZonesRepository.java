@@ -7,6 +7,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import rx.Observable;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
+
 import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
 
@@ -54,48 +59,55 @@ public class ZonesRepository {
         return INSTANCE;
     }
 
-    public void refreshTasks() {
+    public void refreshZones() {
         mCacheIsDirty = true;
     }
 
-    public void getZones(@NonNull final ZonesDataSource.LoadZonesCallback callback) {
-        checkNotNull(callback);
-
+    public Observable<List<Zone>> getZones() {
         //Respond immediately with cache if available and not dirty
         if (mCachedZones != null && !mCacheIsDirty) {
-            callback.onZonesLoaded(new ArrayList<Zone>(mCachedZones.values()));
-            return;
+            return Observable.from(mCachedZones.values()).toList();
+        } else if (mCachedZones == null) {
+            mCachedZones = new LinkedHashMap<>();
         }
+
+        Observable<List<Zone>> remoteTasks = getAndSaveRemoteTasks();
 
         if(mCacheIsDirty){
             //If the cache is dirty we need to fetch new data from the network
-            getZonesFromRemoteDataSource(callback);
+            return remoteTasks;
         }
         else {
             //Get from local copy
+            return null;
         }
-
     }
 
-    private void getZonesFromRemoteDataSource(@NonNull final ZonesDataSource.LoadZonesCallback callback) {
-        mZonesRemoteDataSource.getZones(new ZonesDataSource.LoadZonesCallback(){
-
-            @Override
-            public void onZonesLoaded(final List<Zone> zones) {
-                refreshCache(zones);
-                refreshLocalDataSource(zones);
-                callback.onZonesLoaded(new ArrayList<Zone>(mCachedZones.values()));
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                callback.onDataNotAvailable();
-            }
-        });
+    private Observable<List<Zone>> getAndSaveRemoteTasks() {
+        return mZonesRemoteDataSource
+                .getZones()
+                .flatMap(new Func1<List<Zone>, Observable<List<Zone>>>() {
+                    @Override
+                    public Observable<List<Zone>> call(final List<Zone> zones) {
+                        return Observable.from(zones).doOnNext(new Action1<Zone>() {
+                            @Override
+                            public void call(final Zone zone) {
+                                //mZonesLocalDataSource.saveZone(zone);
+                                mCachedZones.put(zone.getZoneId(), zone);
+                            }
+                        }).toList();
+                    }
+                }).doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        mCacheIsDirty = false;
+                    }
+                });
     }
 
-    private void refreshLocalDataSource(final List<Zone> zones) {
+    private Observable<List<Zone>> getAndCacheLocalTasks(final List<Zone> zones) {
         //TODO
+        return null;
     }
 
     private void refreshCache(final List<Zone> zones) {

@@ -7,7 +7,10 @@ import com.cameramanager.restdemo.data.source.ZonesDataSource;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import rx.Observable;
 
 
 /**
@@ -31,9 +34,6 @@ public class ZonesRemoteDataSource implements ZonesDataSource {
     }
 
 
-    // Prevent direct instantiation.
-    private ZonesRemoteDataSource() {}
-
     public static ZonesRemoteDataSource getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ZonesRemoteDataSource();
@@ -41,8 +41,13 @@ public class ZonesRemoteDataSource implements ZonesDataSource {
         return INSTANCE;
     }
 
+    // Prevent direct instantiation.
+    private ZonesRemoteDataSource() {}
+
     @Override
-    public void getZones(@NonNull final LoadZonesCallback loadZonesCallback) {
-        loadZonesCallback.onZonesLoaded(new ArrayList<Zone>(ZONES_SERVICE_DATA.values()));
+    public Observable<List<Zone>> getZones() {
+        return Observable
+                .from(ZONES_SERVICE_DATA.values())
+                .toList();
     }
 }

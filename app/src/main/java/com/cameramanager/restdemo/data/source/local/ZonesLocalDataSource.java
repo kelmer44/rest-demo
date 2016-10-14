@@ -3,8 +3,13 @@ package com.cameramanager.restdemo.data.source.local;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.cameramanager.restdemo.data.source.Zone;
 import com.cameramanager.restdemo.data.source.ZonesDataSource;
 
+
+import java.util.List;
+
+import rx.Observable;
 
 import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
@@ -27,7 +32,7 @@ public class ZonesLocalDataSource implements ZonesDataSource {
     }
 
     @Override
-    public void getZones(final LoadZonesCallback loadZonesCallback) {
-
+    public Observable<List<Zone>> getZones() {
+        return null;
     }
 }

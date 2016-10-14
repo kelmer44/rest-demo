@@ -34,9 +34,7 @@ public class ZonesFragment extends Fragment implements ZonesContract.View {
 
     private ZonesContract.Presenter mPresenter;
 
-
     private ZonesAdapter mListAdapter;
-
 
     private LinearLayout mZonesView;
 
@@ -60,7 +58,13 @@ public class ZonesFragment extends Fragment implements ZonesContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.unsubscribe();
     }
 
     @Nullable
@@ -132,7 +136,7 @@ public class ZonesFragment extends Fragment implements ZonesContract.View {
     }
 
     @Override
-    public void showLoadingTasksError() {
+    public void showLoadingZonesError() {
         showMessage(getString(R.string.loading_zones_error));
     }
 

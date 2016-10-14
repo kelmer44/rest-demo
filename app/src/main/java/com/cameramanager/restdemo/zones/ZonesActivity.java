@@ -49,7 +49,7 @@ public class ZonesActivity extends AppCompatActivity {
         }
 
         // Create the presenter
-        mZonesPresenter = new ZonesPresenter(Injection.provideZonesRepository(getApplicationContext()), zonesFragment);
+        mZonesPresenter = new ZonesPresenter(Injection.provideZonesRepository(getApplicationContext()), zonesFragment, Injection.provideSchedulerProvider());
     }
 
 
