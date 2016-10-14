@@ -22,5 +22,5 @@ public interface CameraService {
     @GET("cameras/{cameraId}")
     public Observable<Camera> getCamera(@Path("cameraId") Long cameraId);
 
-    
+
 }
