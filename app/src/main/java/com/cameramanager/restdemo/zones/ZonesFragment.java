@@ -17,9 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cameramanager.restdemo.R;
-import com.cameramanager.restdemo.data.source.Zone;
-
-import org.w3c.dom.Text;
+import com.cameramanager.restdemo.data.model.Zone;
 
 import java.util.ArrayList;
 import java.util.List;

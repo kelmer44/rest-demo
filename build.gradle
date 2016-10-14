@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.2.1'
 
         // Better IDE support for annotations (so Android Studio interacts better with Dagger)
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -42,5 +42,9 @@ ext {
     //Rx
     rxjavaVersion = '1.1.8'
     rxandroidVersion = '1.2.1'
+
+    retrofitVersion = '2.0.2'
+
+    gsonVersion = '2.4'
 
 }

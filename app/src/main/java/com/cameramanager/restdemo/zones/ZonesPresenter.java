@@ -2,7 +2,7 @@ package com.cameramanager.restdemo.zones;
 
 import android.support.annotation.NonNull;
 
-import com.cameramanager.restdemo.data.source.Zone;
+import com.cameramanager.restdemo.data.model.Zone;
 import com.cameramanager.restdemo.data.source.ZonesRepository;
 import com.cameramanager.restdemo.util.schedulers.BaseSchedulerProvider;
 

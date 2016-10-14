@@ -29,9 +29,15 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
 
+    //Rx
     compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
     compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
 
+    //Retrofit
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+
+    //Gson
+    compile "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     // Dagger dependencies
 //    apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"

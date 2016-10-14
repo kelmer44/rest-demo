@@ -1,5 +1,7 @@
 package com.cameramanager.restdemo.data.source;
 
+import com.cameramanager.restdemo.data.model.Zone;
+
 import java.util.List;
 
 import rx.Observable;

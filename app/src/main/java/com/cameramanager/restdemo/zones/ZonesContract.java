@@ -2,7 +2,7 @@ package com.cameramanager.restdemo.zones;
 
 import com.cameramanager.restdemo.BasePresenter;
 import com.cameramanager.restdemo.BaseView;
-import com.cameramanager.restdemo.data.source.Zone;
+import com.cameramanager.restdemo.data.model.Zone;
 
 import java.util.List;
 

@@ -2,7 +2,8 @@ package com.cameramanager.restdemo.data.source;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
+import com.cameramanager.restdemo.data.model.Zone;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

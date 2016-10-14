@@ -3,7 +3,7 @@ package com.cameramanager.restdemo.data.source.local;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.cameramanager.restdemo.data.source.Zone;
+import com.cameramanager.restdemo.data.model.Zone;
 import com.cameramanager.restdemo.data.source.ZonesDataSource;
 
 
