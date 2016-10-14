@@ -26,4 +26,8 @@ public class ZonesLocalDataSource implements ZonesDataSource {
         return INSTANCE;
     }
 
+    @Override
+    public void getZones(final LoadZonesCallback loadZonesCallback) {
+
+    }
 }
