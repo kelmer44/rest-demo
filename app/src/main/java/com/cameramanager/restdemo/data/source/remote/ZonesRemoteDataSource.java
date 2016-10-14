@@ -1,12 +1,18 @@
 package com.cameramanager.restdemo.data.source.remote;
 
+import android.support.annotation.NonNull;
+
 import com.cameramanager.restdemo.data.model.Zone;
 import com.cameramanager.restdemo.data.source.ZonesDataSource;
+import com.cameramanager.restdemo.service.ZoneService;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 
 
@@ -30,6 +36,9 @@ public class ZonesRemoteDataSource implements ZonesDataSource {
         ZONES_SERVICE_DATA.put(zone2.getZoneId(), zone2);
     }
 
+    @NonNull
+    private final ZoneService mZoneService;
+
 
     public static ZonesRemoteDataSource getInstance() {
         if (INSTANCE == null) {
@@ -39,12 +48,19 @@ public class ZonesRemoteDataSource implements ZonesDataSource {
     }
 
     // Prevent direct instantiation.
-    private ZonesRemoteDataSource() {}
+    private ZonesRemoteDataSource() {
+
+        Retrofit retrofit  = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(ZoneService.SERVICE_ENDPOINT)
+                .build();
+
+        mZoneService = retrofit.create(ZoneService.class);
+    }
 
     @Override
     public Observable<List<Zone>> getZones() {
-        return Observable
-                .from(ZONES_SERVICE_DATA.values())
-                .toList();
+        return mZoneService.getZones();
     }
 }
