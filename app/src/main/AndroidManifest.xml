@@ -15,7 +15,7 @@
         android:name="com.cameramanager.restdemo.RestDemoApplication"
         >
 
-        <activity android:name=".cameralist.CamerasActivity"
+        <activity android:name=".cameralist.CameraListActivity"
                   android:theme="@style/AppTheme.OverlapSystemBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

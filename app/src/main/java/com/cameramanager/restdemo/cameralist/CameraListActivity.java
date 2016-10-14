@@ -10,12 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.cameramanager.restdemo.R;
+import com.cameramanager.restdemo.util.ActivityUtils;
 
 /**
  * Created by Gabriel Sanmartín on 10/14/2016.
  */
 
-public class CamerasActivity extends AppCompatActivity {
+public class CameraListActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
@@ -38,7 +39,12 @@ public class CamerasActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-
+        CameraListFragment cameraListFragment = (CameraListFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (cameraListFragment == null) {
+            // Create the fragment
+            cameraListFragment = CameraListFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), cameraListFragment, R.id.contentFrame);
+        }
     }
 
 
