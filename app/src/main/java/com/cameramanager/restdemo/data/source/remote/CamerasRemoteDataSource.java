@@ -23,7 +23,7 @@ import rx.Observable;
 
 public class CamerasRemoteDataSource implements CamerasDataSource {
 
-    private static ZonesRemoteDataSource INSTANCE;
+    private static CamerasRemoteDataSource INSTANCE;
 
     private CamerasRemoteDataSource() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -53,4 +53,14 @@ public class CamerasRemoteDataSource implements CamerasDataSource {
     public Observable<CameraStream> getCameraStreams(final Long cameraId) {
         return mCameraService.getCameraStream(cameraId);
     }
+
+
+    public static CamerasRemoteDataSource getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new CamerasRemoteDataSource();
+        }
+        return INSTANCE;
+    }
+
+
 }

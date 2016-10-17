@@ -1,5 +1,6 @@
 package com.cameramanager.restdemo.zones;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 
 import com.cameramanager.restdemo.Injection;
 import com.cameramanager.restdemo.R;
+import com.cameramanager.restdemo.cameralist.CameraListActivity;
 import com.cameramanager.restdemo.util.ActivityUtils;
 
 
@@ -61,9 +63,14 @@ public class ZonesActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.zone_list_menu_item:
                                 // Do nothing, we're already on that screen
+
                                 break;
                             case R.id.camera_list_menu_item:
-                                //Do nothing for the time being
+                                Intent intent =
+                                        new Intent(ZonesActivity.this, CameraListActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
                                 break;
                             default:
                                 break;

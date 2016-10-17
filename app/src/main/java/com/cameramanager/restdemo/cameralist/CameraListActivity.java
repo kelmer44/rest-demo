@@ -1,5 +1,6 @@
 package com.cameramanager.restdemo.cameralist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.cameramanager.restdemo.Injection;
 import com.cameramanager.restdemo.R;
 import com.cameramanager.restdemo.util.ActivityUtils;
+import com.cameramanager.restdemo.zones.ZonesActivity;
 
 /**
  * Created by Gabriel Sanmartín on 10/14/2016.
@@ -19,6 +22,8 @@ import com.cameramanager.restdemo.util.ActivityUtils;
 public class CameraListActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+
+    private CameraListPresenter mCameraListPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,8 @@ public class CameraListActivity extends AppCompatActivity {
             cameraListFragment = CameraListFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), cameraListFragment, R.id.contentFrame);
         }
+
+        mCameraListPresenter = new CameraListPresenter(Injection.provideCamerasRepository(getApplicationContext()), cameraListFragment, Injection.provideSchedulerProvider());
     }
 
 
@@ -55,10 +62,14 @@ public class CameraListActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.zone_list_menu_item:
-                                // Do nothing, we're already on that screen
+                                Intent intent =
+                                        new Intent(CameraListActivity.this, ZonesActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
                                 break;
                             case R.id.camera_list_menu_item:
-                                //Do nothing for the time being
+                                // Do nothing, we're already on that screen
                                 break;
                             default:
                                 break;

@@ -48,14 +48,14 @@ public class ZonesRepository {
     /**
      * Returns the single instance of this class, creating it if necessary.
      *
-     * @param tasksRemoteDataSource the backend data source
-     * @param tasksLocalDataSource  the device storage data source
+     * @param remoteDataSource the backend data source
+     * @param localDataSource  the device storage data source
      * @return the {@link ZonesRepository} instance
      */
-    public static ZonesRepository getInstance(ZonesDataSource tasksRemoteDataSource,
-                                              ZonesDataSource tasksLocalDataSource) {
+    public static ZonesRepository getInstance(ZonesDataSource remoteDataSource,
+                                              ZonesDataSource localDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new ZonesRepository(tasksRemoteDataSource, tasksLocalDataSource);
+            INSTANCE = new ZonesRepository(remoteDataSource, localDataSource);
         }
         return INSTANCE;
     }
@@ -72,7 +72,7 @@ public class ZonesRepository {
             mCachedZones = new LinkedHashMap<>();
         }
 
-        Observable<List<Zone>> remoteTasks = getAndSaveRemoteTasks();
+        Observable<List<Zone>> remoteTasks = getAndSaveRemoteZones();
 
         if(mCacheIsDirty){
             //If the cache is dirty we need to fetch new data from the network
@@ -84,7 +84,7 @@ public class ZonesRepository {
         }
     }
 
-    private Observable<List<Zone>> getAndSaveRemoteTasks() {
+    private Observable<List<Zone>> getAndSaveRemoteZones() {
         return mZonesRemoteDataSource
                 .getZones()
                 .flatMap(new Func1<List<Zone>, Observable<List<Zone>>>() {
