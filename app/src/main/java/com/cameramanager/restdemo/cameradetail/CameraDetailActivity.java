@@ -6,7 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.cameramanager.restdemo.Injection;
 import com.cameramanager.restdemo.R;
+import com.cameramanager.restdemo.util.ActivityUtils;
 
 /**
  * Created by Gabriel Sanmartín on 10/17/2016.
@@ -29,8 +31,19 @@ public class CameraDetailActivity extends AppCompatActivity {
         ab.setDisplayShowHomeEnabled(true);
 
         // Get the requested task id
-        Long taskId = getIntent().getLongExtra(EXTRA_CAMERA_ID, -1);
+        Long cameraId = getIntent().getLongExtra(EXTRA_CAMERA_ID, -1);
 
+        CameraDetailFragment cameraDetailFragment = (CameraDetailFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if(cameraDetailFragment == null) {
+            cameraDetailFragment = CameraDetailFragment.newInstance(cameraId);
+
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), cameraDetailFragment, R.id.contentFrame);
+        }
+
+        new CameraDetailPresenter( cameraId,
+                Injection.provideCamerasRepository(getApplicationContext()),
+                cameraDetailFragment,
+                Injection.provideSchedulerProvider());
     }
 
     @Override

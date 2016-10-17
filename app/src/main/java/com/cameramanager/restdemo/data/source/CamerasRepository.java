@@ -54,17 +54,15 @@ public class CamerasRepository {
     public Observable<List<Camera>> getCameras() {
         if (mCachedCameras != null && !mCacheIsDirty) {
             return Observable.from(mCachedCameras.values()).toList();
-        }
-        else if (mCachedCameras == null) {
+        } else if (mCachedCameras == null) {
             mCachedCameras = new LinkedHashMap<>();
         }
 
         final Observable<List<Camera>> remoteCameras = getAndSaveRemoteCameras();
 
-        if(mCacheIsDirty) {
+        if (mCacheIsDirty) {
             return remoteCameras;
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -93,7 +91,7 @@ public class CamerasRepository {
 
 
     private void refreshCache(final List<Camera> cameras) {
-        if(mCachedCameras == null) {
+        if (mCachedCameras == null) {
             mCachedCameras = new LinkedHashMap<>();
         }
         mCachedCameras.clear();
@@ -102,5 +100,11 @@ public class CamerasRepository {
         }
         mCacheIsDirty = false;
     }
+
+
+    public Observable<Camera> getCamera(Long id) {
+        return Observable.just(new Camera().withCameraId(101L).withName("Camera Test"));
+    }
+
 
 }

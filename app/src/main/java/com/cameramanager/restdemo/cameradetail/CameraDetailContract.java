@@ -11,7 +11,11 @@ public interface CameraDetailContract {
 
     interface View extends BaseView<Presenter> {
 
+        void showName(String name);
 
+        void showMissingCamera();
+
+        void setLoadingIndicator(boolean active);
     }
 
     interface Presenter extends BasePresenter {
