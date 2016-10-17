@@ -126,7 +126,8 @@ public class CameraListPresenter implements CameraListContract.Presenter {
 
 
     @Override
-    public void openCameraDetails() {
-
+    public void openCameraDetails(@NonNull Camera requestedCamera) {
+        checkNotNull(requestedCamera, "Camera cannot be null!");
+        mCamerasView.showCameraDetails(requestedCamera.getCameraId());
     }
 }

@@ -1,6 +1,7 @@
 package com.cameramanager.restdemo.cameralist;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cameramanager.restdemo.R;
+import com.cameramanager.restdemo.cameradetail.CameraDetailActivity;
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.zones.ZonesContract;
 
@@ -31,8 +33,6 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     private CamerasAdapter mCamerasAdapter;
 
     private CameraListContract.Presenter mPresenter;
-
-
 
     public CameraListFragment(){
     }
@@ -69,7 +69,6 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         ListView listView = (ListView) root.findViewById(R.id.camera_list);
         listView.setAdapter(mCamerasAdapter);
 
-
         setHasOptionsMenu(true);
 
         return root;
@@ -85,7 +84,7 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     CamerasItemListener mCamerasItemListener = new CamerasItemListener() {
         @Override
         public void onCameraClick(final Camera clickedCamera) {
-            mPresenter.openCameraDetails();
+            mPresenter.openCameraDetails(clickedCamera);
         }
     };
 
@@ -107,6 +106,14 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     @Override
     public void showNoCameras() {
 
+    }
+
+    @Override
+    public void showCameraDetails(final Long cameraId) {
+        //In its own Activity, since it makes more sanese that way
+        Intent intent = new Intent(getContext(), CameraDetailActivity.class);
+        intent.putExtra(CameraDetailActivity.EXTRA_CAMERA_ID, cameraId);
+        startActivity(intent);
     }
 
     public static class CamerasAdapter extends BaseAdapter {

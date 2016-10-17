@@ -1,5 +1,7 @@
 package com.cameramanager.restdemo.cameralist;
 
+import android.support.annotation.NonNull;
+
 import com.cameramanager.restdemo.BasePresenter;
 import com.cameramanager.restdemo.BaseView;
 import com.cameramanager.restdemo.data.model.Camera;
@@ -21,11 +23,13 @@ public interface CameraListContract {
         void showCameras(List<Camera> cameras);
 
         void showNoCameras();
+
+        void showCameraDetails(Long cameraId);
     }
 
     interface Presenter extends BasePresenter {
 
-        void openCameraDetails();
+        void openCameraDetails(Camera requestedCamera);
 
         void loadCameras(boolean forceUpdate);
     }
