@@ -12,7 +12,6 @@ import rx.Observable;
  */
 public interface ZoneService {
 
-    public static String SERVICE_ENDPOINT = "http://10.0.0.105:8080/rest/v1.1/";
 
     @GET("zones")
     Observable<List<Zone>> getZones();

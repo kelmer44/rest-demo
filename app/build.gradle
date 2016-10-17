@@ -41,6 +41,9 @@ dependencies {
     //Gson
     compile "com.google.code.gson:gson:$rootProject.gsonVersion"
 
+    //Picasso
+    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
+
     // Dagger dependencies
 //    apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 //    provided 'org.glassfish:javax.annotation:10.0-b28'

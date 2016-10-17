@@ -47,4 +47,6 @@ ext {
 
     gsonVersion = '2.4'
 
+    picassoVersion = '2.5.2'
+
 }

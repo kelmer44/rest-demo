@@ -17,7 +17,6 @@ import rx.Observable;
 
 public interface CameraService {
 
-
     @GET("cameras")
     public Observable<List<Camera>> getCameras();
 
@@ -29,4 +28,5 @@ public interface CameraService {
 
     @GET("cameras/{cameraId}/capabilities")
     public Observable<CameraCapabilities> getCameraCapabilities(@Path("cameraId") Long cameraId);
+
 }

@@ -16,6 +16,8 @@ public interface CameraDetailContract {
         void showMissingCamera();
 
         void setLoadingIndicator(boolean active);
+
+        void showScreencap(Long cameraId);
     }
 
     interface Presenter extends BasePresenter {

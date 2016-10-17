@@ -6,6 +6,7 @@ import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraStream;
 import com.cameramanager.restdemo.data.model.capabilities.CameraCapabilities;
 import com.cameramanager.restdemo.data.source.CamerasDataSource;
+import com.cameramanager.restdemo.service.CMService;
 import com.cameramanager.restdemo.service.CameraService;
 import com.cameramanager.restdemo.service.ZoneService;
 
@@ -30,7 +31,7 @@ public class CamerasRemoteDataSource implements CamerasDataSource {
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(ZoneService.SERVICE_ENDPOINT)
+                .baseUrl(CMService.SERVICE_ENDPOINT)
                 .build();
 
         mCameraService = retrofit.create(CameraService.class);

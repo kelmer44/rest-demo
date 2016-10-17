@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.cameramanager.restdemo.data.model.Zone;
 import com.cameramanager.restdemo.data.source.ZonesDataSource;
+import com.cameramanager.restdemo.service.CMService;
 import com.cameramanager.restdemo.service.ZoneService;
 
 import java.util.LinkedHashMap;
@@ -41,7 +42,7 @@ public class ZonesRemoteDataSource implements ZonesDataSource {
         Retrofit retrofit  = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(ZoneService.SERVICE_ENDPOINT)
+                .baseUrl(CMService.SERVICE_ENDPOINT)
                 .build();
 
         mZoneService = retrofit.create(ZoneService.class);

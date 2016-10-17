@@ -94,6 +94,7 @@ public class CameraDetailPresenter implements CameraDetailContract.Presenter {
     private void showCamera(@NonNull final Camera camera) {
         String title = camera.getName();
         mCameraDetailView.showName(title);
+        mCameraDetailView.showScreencap(camera.getCameraId());
     }
 
 }

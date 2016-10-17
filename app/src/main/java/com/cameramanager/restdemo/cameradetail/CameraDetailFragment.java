@@ -3,13 +3,17 @@ package com.cameramanager.restdemo.cameradetail;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cameramanager.restdemo.R;
+import com.cameramanager.restdemo.service.CMService;
+import com.squareup.picasso.Picasso;
 
 import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
@@ -24,11 +28,13 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     private CameraDetailContract.Presenter mPresenter;
 
     private TextView mCameraTitle;
+    private CollapsingToolbarLayout mCollapsingToolbar;
+    private ImageView mSnapshotImage;
 
 
     @Override
     public void setPresenter(@NonNull CameraDetailContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);;
+        mPresenter = checkNotNull(presenter);
     }
 
     public static CameraDetailFragment newInstance(final Long cameraId) {
@@ -57,14 +63,15 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
         View root = inflater.inflate(R.layout.fragment_cameradetail, container, false);
         setHasOptionsMenu(true);
         mCameraTitle = (TextView) root.findViewById(R.id.camera_name_title);
-
+        mCollapsingToolbar = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
+        mSnapshotImage = (ImageView)getActivity().findViewById(R.id.snapshot_imageview);
         return root;
     }
 
 
     @Override
     public void showName(final String name) {
-        mCameraTitle.setText(name);
+        mCollapsingToolbar.setTitle(name);
     }
 
     @Override
@@ -75,5 +82,11 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     @Override
     public void setLoadingIndicator(final boolean active) {
 
+    }
+
+    @Override
+    public void showScreencap(Long cameraId) {
+        checkNotNull(cameraId);
+        Picasso.with(getContext()).load(CMService.buildSnapshotUrl(cameraId)).into(mSnapshotImage);
     }
 }
