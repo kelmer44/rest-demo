@@ -94,6 +94,21 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
 
     }
 
+    @Override
+    public void showLoadingCamerasError() {
+
+    }
+
+    @Override
+    public void showCameras(final List<Camera> cameras) {
+        mCamerasAdapter.replaceData(cameras);
+    }
+
+    @Override
+    public void showNoCameras() {
+
+    }
+
     public static class CamerasAdapter extends BaseAdapter {
 
         private List<Camera> mCameras;
@@ -147,6 +162,11 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
                 }
             });
             return rowView;
+        }
+
+        public void replaceData(final List<Camera> cameras) {
+            setList(cameras);
+            notifyDataSetChanged();
         }
     }
 
