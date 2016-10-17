@@ -33,11 +33,11 @@ public class CameraDetailActivity extends AppCompatActivity {
         // Get the requested task id
         Long cameraId = getIntent().getLongExtra(EXTRA_CAMERA_ID, -1);
 
-        CameraDetailFragment cameraDetailFragment = (CameraDetailFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        CameraDetailFragment cameraDetailFragment = (CameraDetailFragment) getSupportFragmentManager().findFragmentById(R.id.item_detail_container);
         if(cameraDetailFragment == null) {
             cameraDetailFragment = CameraDetailFragment.newInstance(cameraId);
 
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), cameraDetailFragment, R.id.contentFrame);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), cameraDetailFragment, R.id.item_detail_container);
         }
 
         new CameraDetailPresenter( cameraId,
