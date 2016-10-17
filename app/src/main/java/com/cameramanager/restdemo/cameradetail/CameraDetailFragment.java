@@ -23,7 +23,6 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     @NonNull
     private CameraDetailContract.Presenter mPresenter;
 
-
     private TextView mCameraTitle;
 
 
@@ -57,7 +56,6 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cameradetail, container, false);
         setHasOptionsMenu(true);
-
         mCameraTitle = (TextView) root.findViewById(R.id.camera_name_title);
 
         return root;

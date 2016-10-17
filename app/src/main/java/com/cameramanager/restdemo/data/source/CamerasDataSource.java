@@ -2,6 +2,7 @@ package com.cameramanager.restdemo.data.source;
 
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraStream;
+import com.cameramanager.restdemo.data.model.capabilities.CameraCapabilities;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface CamerasDataSource {
     Observable<Camera> getCamera(Long cameraId);
 
     Observable<CameraStream> getCameraStreams(Long cameraId);
+
+    Observable<CameraCapabilities> getCameraCapabilities(Long cameraId);
 
 }

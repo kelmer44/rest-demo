@@ -23,7 +23,7 @@ import static com.cameramanager.restdemo.util.Util.checkNotNull;
  * obtained from the server, by using the remote data source only if the local database doesn't
  * exist or is empty.
  */
-public class ZonesRepository {
+public class ZonesRepository implements ZonesDataSource {
 
     private static ZonesRepository INSTANCE = null;
 

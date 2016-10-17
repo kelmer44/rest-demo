@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraStream;
 import com.cameramanager.restdemo.data.model.Zone;
+import com.cameramanager.restdemo.data.model.capabilities.CameraCapabilities;
 import com.cameramanager.restdemo.data.source.CamerasDataSource;
 
 import java.util.List;
@@ -45,6 +46,11 @@ public class CamerasLocalDataSource implements CamerasDataSource {
 
     @Override
     public Observable<CameraStream> getCameraStreams(final Long cameraId) {
+        return null;
+    }
+
+    @Override
+    public Observable<CameraCapabilities> getCameraCapabilities(final Long cameraId) {
         return null;
     }
 

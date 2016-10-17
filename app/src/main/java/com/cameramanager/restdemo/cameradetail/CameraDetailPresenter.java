@@ -59,7 +59,7 @@ public class CameraDetailPresenter implements CameraDetailContract.Presenter {
     }
 
     private void openCamera() {
-        if (null == mCameraId || mCameraId > 0) {
+        if (null == mCameraId || mCameraId <= 0) {
             mCameraDetailView.showMissingCamera();
             return;
         }

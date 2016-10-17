@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraStream;
+import com.cameramanager.restdemo.data.model.capabilities.CameraCapabilities;
 import com.cameramanager.restdemo.data.source.CamerasDataSource;
 import com.cameramanager.restdemo.service.CameraService;
 import com.cameramanager.restdemo.service.ZoneService;
@@ -54,6 +55,11 @@ public class CamerasRemoteDataSource implements CamerasDataSource {
         return mCameraService.getCameraStream(cameraId);
     }
 
+    @Override
+    public Observable<CameraCapabilities> getCameraCapabilities(final Long cameraId) {
+        return mCameraService.getCameraCapabilities(cameraId);
+    }
+
 
     public static CamerasRemoteDataSource getInstance() {
         if (INSTANCE == null) {
@@ -61,6 +67,5 @@ public class CamerasRemoteDataSource implements CamerasDataSource {
         }
         return INSTANCE;
     }
-
 
 }

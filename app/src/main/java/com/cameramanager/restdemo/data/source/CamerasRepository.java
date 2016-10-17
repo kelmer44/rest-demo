@@ -1,9 +1,12 @@
 package com.cameramanager.restdemo.data.source;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.cameramanager.restdemo.data.model.Camera;
+import com.cameramanager.restdemo.data.model.CameraStream;
 import com.cameramanager.restdemo.data.model.Zone;
+import com.cameramanager.restdemo.data.model.capabilities.CameraCapabilities;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,7 +23,7 @@ import static com.cameramanager.restdemo.util.Util.checkNotNull;
  * Created by Gabriel Sanmartín on 10/17/2016.
  */
 
-public class CamerasRepository {
+public class CamerasRepository implements CamerasDataSource {
 
     private static CamerasRepository INSTANCE = null;
 
@@ -102,8 +105,49 @@ public class CamerasRepository {
     }
 
 
-    public Observable<Camera> getCamera(Long id) {
-        return Observable.just(new Camera().withCameraId(101L).withName("Camera Test"));
+    public Observable<Camera> getCamera(@NonNull Long cameraId) {
+        checkNotNull(cameraId);
+
+        final Camera cachedCamera = getCameraWithId(cameraId);
+
+        if (cachedCamera == null) {
+            mCachedCameras = new LinkedHashMap<>();
+        }
+
+        //Is the task in the local data source? If not, query network
+//        Observable<Camera> localCamera = getTaskWithIdFromLocalRepository(cameraId);
+
+        Observable<Camera> remoteCamera = mCamerasRemoteDataSource
+                .getCamera(cameraId)
+                .doOnNext(new Action1<Camera>() {
+                    @Override
+                    public void call(final Camera camera) {
+//                        mCamerasLocalDataSource.saveCamera(camera);
+                        mCachedCameras.put(camera.getCameraId(), camera);
+                    }
+                });
+
+        return remoteCamera;
+    }
+
+    @Nullable
+    private Camera getCameraWithId(@NonNull Long cameraId) {
+        checkNotNull(cameraId);
+        if (mCachedCameras == null || mCachedCameras.isEmpty()) {
+            return null;
+        } else {
+            return mCachedCameras.get(cameraId);
+        }
+    }
+
+    @Override
+    public Observable<CameraStream> getCameraStreams(final Long cameraId) {
+        return null;
+    }
+
+    @Override
+    public Observable<CameraCapabilities> getCameraCapabilities(final Long cameraId) {
+        return null;
     }
 
 
