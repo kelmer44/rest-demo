@@ -24,18 +24,6 @@ public class ZonesRemoteDataSource implements ZonesDataSource {
 
     private static ZonesRemoteDataSource INSTANCE;
 
-    private final static Map<Long, Zone> ZONES_SERVICE_DATA;
-
-    static {
-        ZONES_SERVICE_DATA = new LinkedHashMap<>(2);
-
-        final Zone zone = new Zone().withZoneId(1L).withPhone("+34646411871").withName("Test zone").withEmail("zone@zone.com").withAccountId(333L);
-        final Zone zone2 = new Zone().withZoneId(2L).withPhone("+34646411871").withName("Zone 2").withEmail("zone@zone.com").withAccountId(333L);
-
-        ZONES_SERVICE_DATA.put(zone.getZoneId(), zone);
-        ZONES_SERVICE_DATA.put(zone2.getZoneId(), zone2);
-    }
-
     @NonNull
     private final ZoneService mZoneService;
 

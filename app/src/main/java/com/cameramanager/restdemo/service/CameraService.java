@@ -2,6 +2,8 @@ package com.cameramanager.restdemo.service;
 
 
 import com.cameramanager.restdemo.data.model.Camera;
+import com.cameramanager.restdemo.data.model.CameraStream;
+import com.cameramanager.restdemo.data.model.capabilities.CameraCapabilities;
 
 import java.util.List;
 
@@ -22,5 +24,9 @@ public interface CameraService {
     @GET("cameras/{cameraId}")
     public Observable<Camera> getCamera(@Path("cameraId") Long cameraId);
 
+    @GET("cameras/{cameraId}/streams")
+    public Observable<CameraStream> getCameraStream(@Path("cameraId") Long cameraId);
 
+    @GET("cameras/{cameraId}/capabilities")
+    public Observable<CameraCapabilities> getCameraCapabilities(@Path("cameraId") Long cameraId);
 }

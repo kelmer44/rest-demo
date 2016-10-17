@@ -48,4 +48,5 @@ dependencies {
 
     // Dependencies for local unit tests
     testCompile "junit:junit:$rootProject.ext.junitVersion"
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
