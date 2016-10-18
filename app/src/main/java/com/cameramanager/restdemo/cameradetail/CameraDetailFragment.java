@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -76,7 +77,6 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
         mSnapshotImage = (ImageView)getActivity().findViewById(R.id.snapshot_imageview);
         mStreamVideo = (VideoView) root.findViewById(R.id.camera_video_stream);
         mMediaController = new MediaController(getContext());
-        mStreamVideo.setMediaController(mMediaController);
 
         mStreamVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
@@ -84,7 +84,12 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
                 return true;
             }
         });
-
+        mStreamVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(final MediaPlayer mediaPlayer) {
+                mMediaController.show(0);
+            }
+        });
         return root;
     }
 

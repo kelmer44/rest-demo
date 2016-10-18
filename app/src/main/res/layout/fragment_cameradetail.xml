@@ -6,10 +6,25 @@
               android:orientation="vertical"
               tools:context=".cameradetail.CameraDetailActivity">
 
-    <VideoView
-        android:id="@+id/camera_video_stream"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="200dp">
+
+        <VideoView
+            android:id="@+id/camera_video_stream"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/video_controls_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="72dp">
+
+    </FrameLayout>
 
     <LinearLayout
         android:elevation="5dp"
