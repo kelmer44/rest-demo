@@ -1,11 +1,13 @@
 package com.cameramanager.restdemo.cameralist;
 
 import android.support.annotation.NonNull;
+import android.view.MenuItem;
 
 import com.cameramanager.restdemo.BasePresenter;
 import com.cameramanager.restdemo.BaseView;
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraTree;
+import com.cameramanager.restdemo.data.model.Zone;
 
 import java.util.List;
 
@@ -25,7 +27,10 @@ public interface CameraListContract {
 
         void showNoCameras();
 
+        void loadFilter(List<Zone> zoneList);
+
         void showCameraDetails(Long cameraId);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -33,5 +38,7 @@ public interface CameraListContract {
         void openCameraDetails(Camera requestedCamera);
 
         void loadCameras(boolean forceUpdate);
+
+        void setFiltering(int id);
     }
 }

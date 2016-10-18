@@ -5,4 +5,7 @@
     <string name="zone_list_header">Zones</string>
     <string name="loading_zones_error">There was an error retrieving the zones</string>
     <string name="camera_list_activity_title">Camera List</string>
+    <string name="zone_filter_menu_item">Zone</string>
+    <string name="refresh_menu_item">Refresh</string>
+    <string name="error_loading_cameras">There was an error loading the camera list.</string>
 </resources>

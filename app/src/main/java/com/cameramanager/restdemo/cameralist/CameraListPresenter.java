@@ -1,6 +1,7 @@
 package com.cameramanager.restdemo.cameralist;
 
 import android.support.annotation.NonNull;
+import android.view.MenuItem;
 
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraTree;
@@ -77,6 +78,7 @@ public class CameraListPresenter implements CameraListContract.Presenter {
                 .subscribe(new Observer<CameraTree>() {
                     @Override
                     public void onCompleted() {
+
                         mCamerasView.setLoadingIndicator(false);
                     }
 
@@ -88,9 +90,17 @@ public class CameraListPresenter implements CameraListContract.Presenter {
                     @Override
                     public void onNext(final CameraTree cameraTree) {
                             processCameras(cameraTree);
+                            processZoneList(cameraTree);
                     }
                 });
         mSubscriptions.add(subscribe);
+    }
+
+    private void processZoneList(final CameraTree cameraTree) {
+        if(cameraTree.isEmpty()){
+            return;
+        }
+        mCamerasView.loadFilter(cameraTree.getZones());
     }
 
     private void processCameras(final CameraTree cameras) {
@@ -100,6 +110,8 @@ public class CameraListPresenter implements CameraListContract.Presenter {
             mCamerasView.showCameras(cameras);
         }
     }
+
+
 
     private void processEmptyCameras() {
         mCamerasView.showNoCameras();
@@ -117,4 +129,10 @@ public class CameraListPresenter implements CameraListContract.Presenter {
         loadCameras(forceUpdate || mFirstLoad, true);
         mFirstLoad = false;
     }
+
+    @Override
+    public void setFiltering(final int id) {
+
+    }
+
 }
