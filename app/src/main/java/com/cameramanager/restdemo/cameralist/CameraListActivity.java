@@ -2,6 +2,7 @@ package com.cameramanager.restdemo.cameralist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +33,7 @@ public class CameraListActivity extends AppCompatActivity {
 
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.camera_list_activity_title);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -40,6 +42,7 @@ public class CameraListActivity extends AppCompatActivity {
         // Set up the navigation drawer.
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -51,7 +54,7 @@ public class CameraListActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), cameraListFragment, R.id.contentFrame);
         }
 
-        mCameraListPresenter = new CameraListPresenter(Injection.provideCamerasRepository(getApplicationContext()), cameraListFragment, Injection.provideSchedulerProvider());
+        mCameraListPresenter = new CameraListPresenter(Injection.provideCameraTreeRepository(getApplicationContext()), cameraListFragment, Injection.provideSchedulerProvider());
     }
 
 

@@ -4,4 +4,5 @@
     <string name="camera_list_title">Camera list</string>
     <string name="zone_list_header">Zones</string>
     <string name="loading_zones_error">There was an error retrieving the zones</string>
+    <string name="camera_list_activity_title">Camera List</string>
 </resources>

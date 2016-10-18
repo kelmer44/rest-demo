@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.cameramanager.restdemo.R;
 import com.cameramanager.restdemo.cameradetail.CameraDetailActivity;
 import com.cameramanager.restdemo.data.model.Camera;
+import com.cameramanager.restdemo.data.model.CameraTree;
+import com.cameramanager.restdemo.data.model.Zone;
 import com.cameramanager.restdemo.zones.ZonesContract;
 
 import java.util.ArrayList;
@@ -99,8 +101,9 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     }
 
     @Override
-    public void showCameras(final List<Camera> cameras) {
-        mCamerasAdapter.replaceData(cameras);
+    public void showCameras(CameraTree cameras) {
+        final List<Zone> zones = cameras.getZones();
+        mCamerasAdapter.replaceData(cameras.getCamerasByZone(zones.get(0).getZoneId()));
     }
 
     @Override

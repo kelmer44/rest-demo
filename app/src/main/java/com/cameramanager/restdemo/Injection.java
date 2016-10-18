@@ -19,6 +19,7 @@ package com.cameramanager.restdemo;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.cameramanager.restdemo.data.source.CameraTreeRepository;
 import com.cameramanager.restdemo.data.source.CamerasRepository;
 import com.cameramanager.restdemo.data.source.ZonesRepository;
 import com.cameramanager.restdemo.data.source.local.CamerasLocalDataSource;
@@ -47,8 +48,13 @@ public class Injection {
         return SchedulerProvider.getInstance();
     }
 
-    public static CamerasRepository provideCamerasRepository(final Context applicationContext) {
+    public static CamerasRepository provideCamerasRepository(@NonNull Context applicationContext) {
         checkNotNull(applicationContext);
         return CamerasRepository.getInstance(CamerasRemoteDataSource.getInstance(), CamerasLocalDataSource.getInstance(applicationContext));
+    }
+
+    public static CameraTreeRepository provideCameraTreeRepository(@NonNull Context context) {
+        checkNotNull(context);
+        return CameraTreeRepository.getInstance(provideZonesRepository(context), provideCamerasRepository(context));
     }
 }

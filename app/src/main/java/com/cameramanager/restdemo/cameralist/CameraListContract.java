@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.cameramanager.restdemo.BasePresenter;
 import com.cameramanager.restdemo.BaseView;
 import com.cameramanager.restdemo.data.model.Camera;
+import com.cameramanager.restdemo.data.model.CameraTree;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface CameraListContract {
 
         void showLoadingCamerasError();
 
-        void showCameras(List<Camera> cameras);
+        void showCameras(CameraTree cameras);
 
         void showNoCameras();
 

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <drawable name="completedTaskBackground">#CCCCCC</drawable>
-    <drawable name="touchFeedback">#CFD8DC</drawable>
-
     <!-- Colors -->
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryDark">#689F38</color>
@@ -13,5 +10,8 @@
     <color name="secondaryText">#757575</color>
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
+
+    <drawable name="completedTaskBackground">#CCCCCC</drawable>
+    <drawable name="touchFeedback">#CFD8DC</drawable>
 
 </resources>
