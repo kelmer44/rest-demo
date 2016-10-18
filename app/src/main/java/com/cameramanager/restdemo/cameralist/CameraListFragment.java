@@ -113,7 +113,7 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
 
     @Override
     public void showCameraDetails(final Long cameraId) {
-        //In its own Activity, since it makes more sanese that way
+        //In its own Activity, since it makes more sense that way
         Intent intent = new Intent(getContext(), CameraDetailActivity.class);
         intent.putExtra(CameraDetailActivity.EXTRA_CAMERA_ID, cameraId);
         startActivity(intent);
