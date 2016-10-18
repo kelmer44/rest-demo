@@ -6,49 +6,74 @@
               android:layout_height="wrap_content"
               android:background="@drawable/touch_feedback"
               android:orientation="vertical"
-              android:paddingBottom="@dimen/list_item_padding"
               android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/list_item_padding">
+              android:paddingRight="@dimen/activity_horizontal_margin">
     <!-- A CardView that contains a TextView -->
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         card_view:cardElevation="5dp"
         card_view:cardUseCompatPadding="true">
 
-        <ImageView
-            android:id="@+id/camera_preview_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/placeholder"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"/>
-
         <LinearLayout
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_image_height"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:background="@drawable/placeholder_container">
+            >
 
-            <TextView
-                android:id="@+id/camera_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
-                tools:text="Camera name"/>
+            <RelativeLayout
+                android:layout_height="192dp"
+                android:layout_width="match_parent">
 
-            <TextView
-                android:id="@+id/camera_subtitle"
+                <ImageView
+                    android:id="@+id/camera_preview_image"
+                    android:layout_width="match_parent"
+                    android:src="@drawable/placeholder"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:layout_height="192dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="192dp"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/placeholder_container">
+
+                    <TextView
+                        android:id="@+id/camera_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_vertical"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
+                        tools:text="Camera name"/>
+
+                    <TextView
+                        android:id="@+id/camera_subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_vertical"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                        tools:text="Camera name"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:padding="@dimen/activity_horizontal_margin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
-                tools:text="Camera name"/>
+                android:layout_height="wrap_content">
+
+                <Switch
+                    android:text="Switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recording_switch"
+                    android:layout_alignParentBottom="true"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 

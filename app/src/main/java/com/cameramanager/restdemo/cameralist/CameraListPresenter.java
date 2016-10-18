@@ -23,19 +23,22 @@ import static com.cameramanager.restdemo.util.Util.checkNotNull;
  * Created by Gabriel Sanmartín on 10/14/2016.
  */
 
-public class CameraListPresenter implements CameraListContract.Presenter {
+public  class CameraListPresenter implements CameraListContract.Presenter {
 
     @NonNull
     private final CameraTreeRepository mCamerasRepository;
 
     @NonNull
     private final CameraListContract.View mCamerasView;
+
+
     //RX Java stuff
     @NonNull
     private final BaseSchedulerProvider mSchedulerProvider;
-    private boolean mFirstLoad = true;
     @NonNull
     private CompositeSubscription mSubscriptions;
+
+    private boolean mFirstLoad = true;
 
 
     CameraListPresenter(@NonNull CameraTreeRepository cameraTreeRepository,
@@ -61,6 +64,20 @@ public class CameraListPresenter implements CameraListContract.Presenter {
         mSubscriptions.clear();
     }
 
+
+    @Override
+    public void loadCameras(final boolean forceUpdate) {
+        // Simplification for sample: a network reload will be forced on first load.
+        loadCameras(forceUpdate || mFirstLoad, true);
+        mFirstLoad = false;
+    }
+
+
+
+    /**
+     * @param forceUpdate   Pass in true to refresh the data
+     * @param showLoadingUI Pass in true to display a loading icon in the UI
+     */
     private void loadCameras(boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) {
             mCamerasView.setLoadingIndicator(true);
@@ -78,7 +95,6 @@ public class CameraListPresenter implements CameraListContract.Presenter {
                 .subscribe(new Observer<CameraTree>() {
                     @Override
                     public void onCompleted() {
-
                         mCamerasView.setLoadingIndicator(false);
                     }
 
@@ -100,7 +116,7 @@ public class CameraListPresenter implements CameraListContract.Presenter {
         if(cameraTree.isEmpty()){
             return;
         }
-        mCamerasView.loadFilter(cameraTree.getZones());
+//        mCamerasView.loadFilter(cameraTree.getZones());
     }
 
     private void processCameras(final CameraTree cameras) {
@@ -124,15 +140,13 @@ public class CameraListPresenter implements CameraListContract.Presenter {
     }
 
     @Override
-    public void loadCameras(final boolean forceUpdate) {
-        // Simplification for sample: a network reload will be forced on first load.
-        loadCameras(forceUpdate || mFirstLoad, true);
-        mFirstLoad = false;
+    public void setFiltering(final int id) {
+
     }
 
     @Override
-    public void setFiltering(final int id) {
-
+    public int getFiltering() {
+        return 0;
     }
 
 }

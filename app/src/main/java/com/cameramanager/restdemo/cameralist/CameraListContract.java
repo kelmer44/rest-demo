@@ -27,9 +27,9 @@ public interface CameraListContract {
 
         void showNoCameras();
 
-        void loadFilter(List<Zone> zoneList);
-
         void showCameraDetails(Long cameraId);
+
+        boolean isActive();
 
     }
 
@@ -40,5 +40,7 @@ public interface CameraListContract {
         void loadCameras(boolean forceUpdate);
 
         void setFiltering(int id);
+
+        int getFiltering();
     }
 }

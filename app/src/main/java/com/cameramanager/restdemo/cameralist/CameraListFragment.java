@@ -22,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.cameramanager.restdemo.R;
@@ -44,17 +45,17 @@ import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
 public class CameraListFragment extends Fragment implements CameraListContract.View{
 
+    private CameraListContract.Presenter mPresenter;
+
     private CamerasAdapter mCamerasAdapter;
 
-    private CameraListContract.Presenter mPresenter;
     private PopupMenu mPopupMenu;
 
     public CameraListFragment(){
     }
 
-    @Override
-    public void setPresenter(@NonNull final CameraListContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+    public static CameraListFragment newInstance() {
+        return new CameraListFragment();
     }
 
     @Override
@@ -67,7 +68,6 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     @Override
     public void onResume() {
         super.onResume();
-
         mPresenter.subscribe();
     }
 
@@ -76,6 +76,12 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         super.onPause();
         mPresenter.unsubscribe();
     }
+
+    @Override
+    public void setPresenter(@NonNull final CameraListContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
 
     @Nullable
     @Override
@@ -90,7 +96,6 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
 
 
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
-
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
                 ContextCompat.getColor(getActivity(), R.color.colorAccent),
@@ -104,19 +109,15 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
             }
         });
 
-
-
         setHasOptionsMenu(true);
 
         return root;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
-
                 mPopupMenu.show();
                 break;
             case R.id.menu_refresh:
@@ -126,15 +127,11 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         return true;
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.camera_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-
-    public static CameraListFragment newInstance() {
-        return new CameraListFragment();
     }
 
 
@@ -182,6 +179,12 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     }
 
     @Override
+    public boolean isActive() {
+        return isAdded();
+    }
+
+
+//    @Override
     public void loadFilter(final List<Zone> zoneList) {
         mPopupMenu.getMenu().clear();
         for (int i = 0; i < zoneList.size(); i++) {
@@ -230,7 +233,7 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         public void onBindViewHolder(final CameraViewHolder holder, final int position) {
             final Camera camera = mCameras.get(position);
             holder.titleTextView.setText(camera.getName());
-
+            holder.recordingSwitch.setChecked(camera.getOnline());
             Picasso.with(CameraListFragment.this.getContext()).load(CMService.buildSnapshotUrl(camera.getCameraId())).into(holder.cameraPreview);
             holder.containerView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -249,12 +252,14 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
             TextView titleTextView;
             ImageView cameraPreview;
             View containerView;
+            Switch recordingSwitch;
 
             public CameraViewHolder(View itemView) {
                super(itemView);
                 containerView = itemView;
                 titleTextView = (TextView) itemView.findViewById(R.id.camera_title);
                 cameraPreview = (ImageView) itemView.findViewById(R.id.camera_preview_image);
+                recordingSwitch = (Switch) itemView.findViewById(R.id.recording_switch);
             }
         }
 

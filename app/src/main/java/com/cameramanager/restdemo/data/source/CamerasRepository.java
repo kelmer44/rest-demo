@@ -142,12 +142,12 @@ public class CamerasRepository implements CamerasDataSource {
 
     @Override
     public Observable<CameraStream> getCameraStreams(final Long cameraId) {
-        return null;
+        return mCamerasRemoteDataSource.getCameraStreams(cameraId);
     }
 
     @Override
     public Observable<CameraCapabilities> getCameraCapabilities(final Long cameraId) {
-        return null;
+        return mCamerasRemoteDataSource.getCameraCapabilities(cameraId);
     }
 
 

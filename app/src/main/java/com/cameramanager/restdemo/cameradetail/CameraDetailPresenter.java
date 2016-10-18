@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.cameramanager.restdemo.data.model.Camera;
+import com.cameramanager.restdemo.data.model.CameraStream;
+import com.cameramanager.restdemo.data.model.capabilities.CameraCapabilities;
 import com.cameramanager.restdemo.data.source.CamerasRepository;
 import com.cameramanager.restdemo.util.schedulers.BaseSchedulerProvider;
 
@@ -56,6 +58,7 @@ public class CameraDetailPresenter implements CameraDetailContract.Presenter {
     @Override
     public void unsubscribe() {
         mSubscriptions.clear();
+        mCameraDetailView.stop();
     }
 
     private void openCamera() {
@@ -66,13 +69,12 @@ public class CameraDetailPresenter implements CameraDetailContract.Presenter {
 
         mCameraDetailView.setLoadingIndicator(true);
         Subscription subscription = mCamerasRepository
-                .getCamera(mCameraId)
+                .getCameraCapabilities(mCameraId)
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe(new Observer<Camera>() {
+                .subscribe(new Observer<CameraCapabilities>() {
                     @Override
                     public void onCompleted() {
-
                         mCameraDetailView.setLoadingIndicator(false);
                     }
 
@@ -82,16 +84,40 @@ public class CameraDetailPresenter implements CameraDetailContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(Camera task) {
-                        showCamera(task);
+                    public void onNext(CameraCapabilities camera) {
+                        showCamera(camera);
                     }
 
 
                 });
+
         mSubscriptions.add(subscription);
+
+        mCameraDetailView.setVideoLoadingIndicator(true);
+        Subscription streamSubscription = mCamerasRepository
+                .getCameraStreams(mCameraId)
+                .subscribeOn(mSchedulerProvider.computation())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Observer<CameraStream>() {
+                    @Override
+                    public void onCompleted() {
+                        mCameraDetailView.setVideoLoadingIndicator(false);
+                    }
+
+                    @Override
+                    public void onError(final Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(final CameraStream cameraStream) {
+                        mCameraDetailView.loadVideo(cameraStream);
+                        mCameraDetailView.play();
+                    }
+                });
     }
 
-    private void showCamera(@NonNull final Camera camera) {
+    private void showCamera(@NonNull final CameraCapabilities camera) {
         String title = camera.getName();
         mCameraDetailView.showName(title);
         mCameraDetailView.showScreencap(camera.getCameraId());

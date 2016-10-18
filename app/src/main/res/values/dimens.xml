@@ -8,5 +8,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="cardview_image_height">200dp</dimen>
+    <dimen name="card_height">260dp</dimen>
 
 </resources>

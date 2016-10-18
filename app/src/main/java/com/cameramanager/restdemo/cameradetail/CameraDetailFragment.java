@@ -1,19 +1,28 @@
 package com.cameramanager.restdemo.cameradetail;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.cameramanager.restdemo.R;
+import com.cameramanager.restdemo.data.model.CameraStream;
 import com.cameramanager.restdemo.service.CMService;
 import com.squareup.picasso.Picasso;
+
+import java.net.URI;
+import java.util.List;
 
 import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
@@ -27,9 +36,10 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     @NonNull
     private CameraDetailContract.Presenter mPresenter;
 
-    private TextView mCameraTitle;
     private CollapsingToolbarLayout mCollapsingToolbar;
     private ImageView mSnapshotImage;
+    private VideoView mStreamVideo;
+    private MediaController mMediaController;
 
 
     @Override
@@ -62,10 +72,24 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cameradetail, container, false);
         setHasOptionsMenu(true);
-        mCameraTitle = (TextView) root.findViewById(R.id.camera_name_title);
         mCollapsingToolbar = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
         mSnapshotImage = (ImageView)getActivity().findViewById(R.id.snapshot_imageview);
+        mStreamVideo = (VideoView) root.findViewById(R.id.camera_video_stream);
+        mMediaController = new MediaController(getContext());
+        mStreamVideo.setMediaController(mMediaController);
+
+        mStreamVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer arg0, int arg1, int arg2) {
+                return true;
+            }
+        });
+
         return root;
+    }
+
+    private void showMessage(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
 
@@ -88,5 +112,35 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     public void showScreencap(Long cameraId) {
         checkNotNull(cameraId);
         Picasso.with(getContext()).load(CMService.buildSnapshotUrl(cameraId)).into(mSnapshotImage);
+    }
+
+    @Override
+    public void loadVideo(final CameraStream cameraStream) {
+        final List<String> urls = cameraStream.getUrls();
+        if (urls == null | urls.size() < 1) {
+            return;
+        }
+        final String s = urls.get(0);
+        final Uri parse = Uri.parse(s);
+        mStreamVideo.setVideoURI(parse);
+    }
+
+    @Override
+    public void play() {
+        if(!mStreamVideo.isPlaying()) {
+            mStreamVideo.start();
+        }
+    }
+
+    @Override
+    public void stop() {
+        if(mStreamVideo.isPlaying()) {
+            mStreamVideo.stopPlayback();
+        }
+    }
+
+    @Override
+    public void setVideoLoadingIndicator(final boolean active) {
+
     }
 }
