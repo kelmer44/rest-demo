@@ -7,6 +7,7 @@ import com.cameramanager.restdemo.BasePresenter;
 import com.cameramanager.restdemo.BaseView;
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraTree;
+import com.cameramanager.restdemo.data.model.User;
 import com.cameramanager.restdemo.data.model.Zone;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public interface CameraListContract {
 
         boolean isActive();
 
+        void showLoadingUserError();
+
+        void showUser(User user);
     }
 
     interface Presenter extends BasePresenter {

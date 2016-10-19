@@ -12,4 +12,5 @@
     <string name="footage_title">Footage</string>
     <string name="support_title">Support</string>
     <string name="recording_switch_title">Recording</string>
+    <string name="error_loading_user">There was an error loading the user details.</string>
 </resources>

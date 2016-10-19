@@ -21,10 +21,13 @@ import android.support.annotation.NonNull;
 
 import com.cameramanager.restdemo.data.source.CameraTreeRepository;
 import com.cameramanager.restdemo.data.source.CamerasRepository;
+import com.cameramanager.restdemo.data.source.UserRepository;
 import com.cameramanager.restdemo.data.source.ZonesRepository;
 import com.cameramanager.restdemo.data.source.local.CamerasLocalDataSource;
+import com.cameramanager.restdemo.data.source.local.UserLocalDataSource;
 import com.cameramanager.restdemo.data.source.local.ZonesLocalDataSource;
 import com.cameramanager.restdemo.data.source.remote.CamerasRemoteDataSource;
+import com.cameramanager.restdemo.data.source.remote.UserRemoteDataSource;
 import com.cameramanager.restdemo.data.source.remote.ZonesRemoteDataSource;
 import com.cameramanager.restdemo.util.schedulers.BaseSchedulerProvider;
 import com.cameramanager.restdemo.util.schedulers.SchedulerProvider;
@@ -52,6 +55,13 @@ public class Injection {
         checkNotNull(applicationContext);
         return CamerasRepository.getInstance(CamerasRemoteDataSource.getInstance(), CamerasLocalDataSource.getInstance(applicationContext));
     }
+
+    public static UserRepository provideUsersDataSource(@NonNull Context applicationContext) {
+        checkNotNull(applicationContext);
+        return UserRepository.getInstance(UserRemoteDataSource.getInstance(), new UserLocalDataSource());
+    }
+
+
 
     public static CameraTreeRepository provideCameraTreeRepository(@NonNull Context context) {
         checkNotNull(context);

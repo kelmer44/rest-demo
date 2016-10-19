@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -29,6 +31,7 @@ import com.cameramanager.restdemo.R;
 import com.cameramanager.restdemo.cameradetail.CameraDetailActivity;
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraTree;
+import com.cameramanager.restdemo.data.model.User;
 import com.cameramanager.restdemo.data.model.Zone;
 import com.cameramanager.restdemo.service.CMService;
 import com.cameramanager.restdemo.zones.ZonesContract;
@@ -183,8 +186,23 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         return isAdded();
     }
 
+    @Override
+    public void showLoadingUserError() {
+        showMessage(getString(R.string.error_loading_user));
+    }
 
-//    @Override
+    @Override
+    public void showUser(final User user) {
+        final NavigationView drawerLayout = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        final View headerView = drawerLayout.getHeaderView(0);
+        final TextView userName = (TextView) headerView.findViewById(R.id.username_header);
+        final TextView userEmail = (TextView) headerView.findViewById(R.id.tv_email);
+        userName.setText(String.format("%s %s", user.getGivenName(), user.getFamilyName()));
+        userEmail.setText(user.getEmail());
+    }
+
+
+    //    @Override
     public void loadFilter(final List<Zone> zoneList) {
         mPopupMenu.getMenu().clear();
         for (int i = 0; i < zoneList.size(); i++) {

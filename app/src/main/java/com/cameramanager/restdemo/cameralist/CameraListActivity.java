@@ -55,7 +55,7 @@ public class CameraListActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mCameraListFragment, R.id.contentFrame);
         }
 
-        mCameraListPresenter = new CameraListPresenter(Injection.provideCameraTreeRepository(getApplicationContext()), mCameraListFragment, Injection.provideSchedulerProvider());
+        mCameraListPresenter = new CameraListPresenter(Injection.provideCameraTreeRepository(getApplicationContext()), Injection.provideUsersDataSource(getApplicationContext()), mCameraListFragment, Injection.provideSchedulerProvider());
     }
 
 

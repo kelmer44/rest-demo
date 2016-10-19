@@ -5,8 +5,10 @@ import android.view.MenuItem;
 
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraTree;
+import com.cameramanager.restdemo.data.model.User;
 import com.cameramanager.restdemo.data.source.CameraTreeRepository;
 import com.cameramanager.restdemo.data.source.CamerasRepository;
+import com.cameramanager.restdemo.data.source.UserRepository;
 import com.cameramanager.restdemo.util.schedulers.BaseSchedulerProvider;
 
 import java.util.List;
@@ -29,6 +31,8 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
     private final CameraTreeRepository mCamerasRepository;
 
     @NonNull
+    private final UserRepository mUserRepository;
+    @NonNull
     private final CameraListContract.View mCamerasView;
 
 
@@ -42,9 +46,11 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
 
 
     CameraListPresenter(@NonNull CameraTreeRepository cameraTreeRepository,
+                        @NonNull UserRepository userRepository,
                         @NonNull CameraListContract.View camerasView,
                         @NonNull BaseSchedulerProvider schedulerProvider) {
         mCamerasRepository = checkNotNull(cameraTreeRepository, "CameraTreeRepository cannot be null");
+        mUserRepository = userRepository;
         mCamerasView = checkNotNull(camerasView, "CamerasView cannot be null");
         mSchedulerProvider = checkNotNull(schedulerProvider, "SchedulerProvider cannot be null");
 
@@ -57,6 +63,36 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
     @Override
     public void subscribe() {
         loadCameras(false);
+        loadUser();
+    }
+
+    private void loadUser() {
+        final Subscription userSubscription = mUserRepository.getSelf()
+                .subscribeOn(mSchedulerProvider.computation())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(final Throwable e) {
+                        mCamerasView.showLoadingUserError();
+                    }
+
+                    @Override
+                    public void onNext(final User user) {
+                        processUserName(user);
+                    }
+                });
+        mSubscriptions.add(userSubscription);
+    }
+
+    private void processUserName(final User user) {
+        if (user != null) {
+            mCamerasView.showUser(user);
+        }
     }
 
     @Override
