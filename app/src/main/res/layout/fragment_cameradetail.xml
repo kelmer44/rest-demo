@@ -8,8 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@android:color/black">
+        android:background="@android:color/black"
+        android:layout_height="240dp">
 
         <VideoView
             android:id="@+id/camera_video_stream"
@@ -18,21 +18,34 @@
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
     </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/video_controls_anchor"
-        android:layout_width="match_parent"
-        android:layout_height="72dp">
-
-    </FrameLayout>
 
     <LinearLayout
         android:elevation="5dp"
         android:orientation="vertical"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="Panasonic K-EPW140L"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/list_item_padding"
+            android:layout_marginRight="@dimen/list_item_padding"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:id="@+id/name_textview"/>
+
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/elements_container"
+        android:scrollbars="vertical"/>
 
 
 </LinearLayout>
