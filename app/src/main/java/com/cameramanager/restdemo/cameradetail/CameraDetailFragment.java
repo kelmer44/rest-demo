@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static android.view.View.GONE;
 import static com.cameramanager.restdemo.util.Util.checkNotNull;
 
 /**
@@ -57,6 +58,7 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     private RecyclerView mCapabilitiesContainer;
     private CapabilitiesAdapter mCapabilitiesAdapter;
     private TextView mNameTextView;
+    private View mVideoLoading;
 
 
     public CameraDetailFragment(){
@@ -100,13 +102,15 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
         View root = inflater.inflate(R.layout.fragment_cameradetail, container, false);
         setHasOptionsMenu(true);
         mStreamVideo = (VideoView) root.findViewById(R.id.camera_video_stream);
-        mMediaController = new MediaController(getContext());
 
         mCapabilitiesContainer = (RecyclerView)root.findViewById(R.id.elements_container);
-//        mCapabilitiesContainer.setHasFixedSize(true);
 
         mCapabilitiesContainer.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mCapabilitiesContainer.setAdapter(mCapabilitiesAdapter);
+
+
+        mVideoLoading = root.findViewById(R.id.video_progress_bar);
+        mVideoLoading.setVisibility(View.VISIBLE);
 
         mNameTextView = (TextView) root.findViewById(R.id.name_textview);
 
@@ -119,7 +123,7 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
         mStreamVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(final MediaPlayer mediaPlayer) {
-                mMediaController.show(0);
+                mVideoLoading.setVisibility(View.GONE);
             }
         });
         return root;
@@ -134,7 +138,6 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     public void showName(final String name) {
         getActivity().setTitle(name);
         mNameTextView.setText(name);
-//        mCollapsingToolbar.setTitle(name);
     }
 
     @Override
@@ -185,7 +188,6 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
 
     @Override
     public void setVideoLoadingIndicator(final boolean active) {
-
     }
 
 
