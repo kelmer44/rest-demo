@@ -41,6 +41,7 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     private ImageView mSnapshotImage;
     private VideoView mStreamVideo;
     private MediaController mMediaController;
+    private View mToolBar;
 
 
     @Override
@@ -73,8 +74,10 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cameradetail, container, false);
         setHasOptionsMenu(true);
-        mCollapsingToolbar = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
-        mSnapshotImage = (ImageView)getActivity().findViewById(R.id.snapshot_imageview);
+//        mCollapsingToolbar = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_layout);
+//        mSnapshotImage = (ImageView)getActivity().findViewById(R.id.snapshot_imageview);
+
+        mToolBar = getActivity().findViewById(R.id.toolbar);
         mStreamVideo = (VideoView) root.findViewById(R.id.camera_video_stream);
         mMediaController = new MediaController(getContext());
 
@@ -100,7 +103,8 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
 
     @Override
     public void showName(final String name) {
-        mCollapsingToolbar.setTitle(name);
+        getActivity().setTitle(name);
+//        mCollapsingToolbar.setTitle(name);
     }
 
     @Override
@@ -116,7 +120,7 @@ public class CameraDetailFragment extends Fragment implements CameraDetailContra
     @Override
     public void showScreencap(Long cameraId) {
         checkNotNull(cameraId);
-        Picasso.with(getContext()).load(CMService.buildSnapshotUrl(cameraId)).into(mSnapshotImage);
+//        Picasso.with(getContext()).load(CMService.buildSnapshotUrl(cameraId)).into(mSnapshotImage);
     }
 
     @Override

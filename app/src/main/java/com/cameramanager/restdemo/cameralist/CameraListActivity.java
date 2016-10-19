@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -25,6 +26,7 @@ public class CameraListActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
 
     private CameraListPresenter mCameraListPresenter;
+    private CameraListFragment mCameraListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,24 +43,24 @@ public class CameraListActivity extends AppCompatActivity {
 
         // Set up the navigation drawer.
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-        CameraListFragment cameraListFragment = (CameraListFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (cameraListFragment == null) {
+        mCameraListFragment = (CameraListFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (mCameraListFragment == null) {
             // Create the fragment
-            cameraListFragment = CameraListFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), cameraListFragment, R.id.contentFrame);
+            mCameraListFragment = CameraListFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mCameraListFragment, R.id.contentFrame);
         }
 
-        mCameraListPresenter = new CameraListPresenter(Injection.provideCameraTreeRepository(getApplicationContext()), cameraListFragment, Injection.provideSchedulerProvider());
+        mCameraListPresenter = new CameraListPresenter(Injection.provideCameraTreeRepository(getApplicationContext()), mCameraListFragment, Injection.provideSchedulerProvider());
     }
 
 
     private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.getMenu().findItem(R.id.camera_list_menu_item).setChecked(true);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -75,10 +77,11 @@ public class CameraListActivity extends AppCompatActivity {
                                 // Do nothing, we're already on that screen
                                 break;
                             default:
+                                Snackbar.make(findViewById(R.id.contentFrame), "This option is currently disabled", Snackbar.LENGTH_SHORT).show();
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.
-                        menuItem.setChecked(true);
+//                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
