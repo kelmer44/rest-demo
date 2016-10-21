@@ -14,6 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,15 +47,21 @@ import static com.cameramanager.restdemo.util.Util.checkNotNull;
  * Created by Gabriel Sanmartín on 10/14/2016.
  */
 
-public class CameraListFragment extends Fragment implements CameraListContract.View{
+public class CameraListFragment extends Fragment implements CameraListContract.View {
 
+    private static final String TAG = "CameraListFragment";
     private CameraListContract.Presenter mPresenter;
-
+    CamerasItemListener mCamerasItemListener = new CamerasItemListener() {
+        @Override
+        public void onCameraClick(final Camera clickedCamera) {
+            mPresenter.openCameraDetails(clickedCamera);
+        }
+    };
     private CamerasAdapter mCamerasAdapter;
-
     private PopupMenu mPopupMenu;
+    private List<Zone> mZoneList;
 
-    public CameraListFragment(){
+    public CameraListFragment() {
     }
 
     public static CameraListFragment newInstance() {
@@ -66,25 +73,6 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         super.onCreate(savedInstanceState);
         mCamerasAdapter = new CamerasAdapter(new ArrayList<Camera>(0), mCamerasItemListener);
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.subscribe();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.unsubscribe();
-    }
-
-    @Override
-    public void setPresenter(@NonNull final CameraListContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
-    }
-
 
     @Nullable
     @Override
@@ -117,12 +105,44 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.unsubscribe();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.camera_list_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
-                if(mPopupMenu!=null) {
-                    mPopupMenu.show();
+
+                if (mPopupMenu == null) {
+                    mPopupMenu = new PopupMenu(getContext(), getActivity().findViewById(R.id.menu_filter));
                 }
+                mPopupMenu.getMenu().clear();
+                for (int i = 0; i < mZoneList.size(); i++) {
+                    final Zone zone = mZoneList.get(i);
+                    mPopupMenu.getMenu().add(Menu.NONE, zone.getZoneId().intValue(), i, zone.getName());
+                }
+                mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        mPresenter.setFiltering(item.getItemId());
+                        mPresenter.loadCameras(false);
+                        return true;
+                    }
+                });
+                mPopupMenu.show();
                 break;
             case R.id.menu_refresh:
                 mPresenter.loadCameras(true);
@@ -131,20 +151,10 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         return true;
     }
 
-
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.camera_list_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    public void setPresenter(@NonNull final CameraListContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
     }
-
-
-    CamerasItemListener mCamerasItemListener = new CamerasItemListener() {
-        @Override
-        public void onCameraClick(final Camera clickedCamera) {
-            mPresenter.openCameraDetails(clickedCamera);
-        }
-    };
 
     @Override
     public void setLoadingIndicator(final boolean active) {
@@ -172,14 +182,21 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     }
 
     @Override
-    public void showCameras(CameraTree cameras) {
-        final List<Zone> zones = cameras.getZones();
-        mCamerasAdapter.replaceData(cameras.getCamerasByZone(zones.get(0).getZoneId()));
+    public void showCameras(List<Camera> cameras) {
+        mCamerasAdapter.replaceData(cameras);
     }
 
     @Override
     public void showNoCameras() {
 
+    }
+
+    @Override
+    public void showCameraDetails(final Long cameraId) {
+        //In its own Activity, since it makes more sense that way
+        Intent intent = new Intent(getContext(), CameraDetailActivity.class);
+        intent.putExtra(CameraDetailActivity.EXTRA_CAMERA_ID, cameraId);
+        startActivity(intent);
     }
 
     @Override
@@ -202,25 +219,13 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         userEmail.setText(user.getEmail());
     }
 
-
     //    @Override
     public void loadFilter(final List<Zone> zoneList) {
-        if(mPopupMenu ==null) {
-            mPopupMenu = new PopupMenu(getContext(), getActivity().findViewById(R.id.menu_filter));
-        }
-        mPopupMenu.getMenu().clear();
-        for (int i = 0; i < zoneList.size(); i++) {
-            final Zone zone = zoneList.get(i);
-            mPopupMenu.getMenu().add(Menu.NONE, zone.getZoneId().intValue(), i, zone.getName());
-        }
+        mZoneList = zoneList;
     }
 
-    @Override
-    public void showCameraDetails(final Long cameraId) {
-        //In its own Activity, since it makes more sense that way
-        Intent intent = new Intent(getContext(), CameraDetailActivity.class);
-        intent.putExtra(CameraDetailActivity.EXTRA_CAMERA_ID, cameraId);
-        startActivity(intent);
+    public interface CamerasItemListener {
+        void onCameraClick(Camera clickedCamera);
     }
 
     public class CamerasAdapter extends RecyclerView.Adapter<CamerasAdapter.CameraViewHolder> {
@@ -277,7 +282,7 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
             Switch recordingSwitch;
 
             public CameraViewHolder(View itemView) {
-               super(itemView);
+                super(itemView);
                 containerView = itemView;
                 titleTextView = (TextView) itemView.findViewById(R.id.camera_title);
                 cameraPreview = (ImageView) itemView.findViewById(R.id.camera_preview_image);
@@ -286,10 +291,5 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         }
 
 
-
-    }
-
-    public interface CamerasItemListener {
-        void onCameraClick(Camera clickedCamera);
     }
 }

@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import com.cameramanager.restdemo.data.model.Camera;
 import com.cameramanager.restdemo.data.model.CameraTree;
 import com.cameramanager.restdemo.data.model.User;
+import com.cameramanager.restdemo.data.model.Zone;
 import com.cameramanager.restdemo.data.source.CameraTreeRepository;
 import com.cameramanager.restdemo.data.source.CamerasRepository;
 import com.cameramanager.restdemo.data.source.UserRepository;
@@ -43,6 +44,7 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
     private CompositeSubscription mSubscriptions;
 
     private boolean mFirstLoad = true;
+    private int mCurrentFiltering = 0;
 
 
     CameraListPresenter(@NonNull CameraTreeRepository cameraTreeRepository,
@@ -105,7 +107,6 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
     public void loadCameras(final boolean forceUpdate) {
         // Simplification for sample: a network reload will be forced on first load.
         loadCameras(forceUpdate || mFirstLoad, true);
-        mFirstLoad = false;
     }
 
 
@@ -141,6 +142,11 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
 
                     @Override
                     public void onNext(final CameraTree cameraTree) {
+                            if(mFirstLoad) {
+                                final Zone zone = cameraTree.getZones().get(0);
+                                mCurrentFiltering = zone.getZoneId().intValue();
+                                mFirstLoad = false;
+                            }
                             processCameras(cameraTree);
                             processZoneList(cameraTree);
                     }
@@ -159,7 +165,7 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
         if (cameras.isEmpty()) {
             processEmptyCameras();
         } else {
-            mCamerasView.showCameras(cameras);
+            mCamerasView.showCameras(cameras.getCamerasByZone(new Long(mCurrentFiltering)));
         }
     }
 
@@ -176,8 +182,8 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
     }
 
     @Override
-    public void setFiltering(final int id) {
-
+    public void setFiltering(@NonNull final int id) {
+        mCurrentFiltering = id;
     }
 
     @Override

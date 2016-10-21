@@ -24,7 +24,7 @@ public interface CameraListContract {
 
         void showLoadingCamerasError();
 
-        void showCameras(CameraTree cameras);
+        void showCameras(List<Camera> cameras);
 
         void showNoCameras();
 
