@@ -97,7 +97,6 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(mCamerasAdapter);
 
-
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
@@ -121,7 +120,9 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter:
-                mPopupMenu.show();
+                if(mPopupMenu!=null) {
+                    mPopupMenu.show();
+                }
                 break;
             case R.id.menu_refresh:
                 mPresenter.loadCameras(true);
@@ -204,6 +205,9 @@ public class CameraListFragment extends Fragment implements CameraListContract.V
 
     //    @Override
     public void loadFilter(final List<Zone> zoneList) {
+        if(mPopupMenu ==null) {
+            mPopupMenu = new PopupMenu(getContext(), getActivity().findViewById(R.id.menu_filter));
+        }
         mPopupMenu.getMenu().clear();
         for (int i = 0; i < zoneList.size(); i++) {
             final Zone zone = zoneList.get(i);

@@ -152,7 +152,7 @@ public  class CameraListPresenter implements CameraListContract.Presenter {
         if(cameraTree.isEmpty()){
             return;
         }
-//        mCamerasView.loadFilter(cameraTree.getZones());
+        mCamerasView.loadFilter(cameraTree.getZones());
     }
 
     private void processCameras(final CameraTree cameras) {

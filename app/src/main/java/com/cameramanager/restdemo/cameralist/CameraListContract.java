@@ -35,6 +35,8 @@ public interface CameraListContract {
         void showLoadingUserError();
 
         void showUser(User user);
+
+        void loadFilter(List<Zone> zones);
     }
 
     interface Presenter extends BasePresenter {
