@@ -41,7 +41,10 @@ public class CameraTreeRepository {
 
 
     public Observable<CameraTree> getCameraTree() {
-        Observable<CameraTree> combined = Observable.zip(mZonesRepository.getZones(), mCamerasRepository.getCameras(), new Func2<List<Zone>, List<Camera>, CameraTree>() {
+        Observable<CameraTree> combined = Observable.zip(
+                mZonesRepository.getZones(),
+                mCamerasRepository.getCameras(),
+                new Func2<List<Zone>, List<Camera>, CameraTree>() {
             @Override
             public CameraTree call(List<Zone> zones, List<Camera> cameras) {
                 return new CameraTree(zones, cameras);

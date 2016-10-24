@@ -28,6 +28,7 @@ public class CamerasRemoteDataSource implements CamerasDataSource {
     private static CamerasRemoteDataSource INSTANCE;
 
     private CamerasRemoteDataSource() {
+        //This should be taken into a single manage point
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
